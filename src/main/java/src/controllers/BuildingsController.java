@@ -3,7 +3,6 @@ package src.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import src.exceptions.BuildingNotFound;
-import src.model.ApartmentsRepository;
 import src.model.Building;
 import src.model.BuildingsRepository;
 
@@ -14,12 +13,9 @@ public class BuildingsController {
 
     @Autowired
     private final BuildingsRepository buildingsRepository;
-    @Autowired
-    private final ApartmentsRepository apartmentsRepository;
 
-    BuildingsController(BuildingsRepository buildingsRepository, ApartmentsRepository apartmentsRepository) {
+    BuildingsController(BuildingsRepository buildingsRepository) {
         this.buildingsRepository = buildingsRepository;
-        this.apartmentsRepository = apartmentsRepository;
     }
 
     @GetMapping("/buildings")
@@ -27,23 +23,15 @@ public class BuildingsController {
         return buildingsRepository.findAll();
     }
 
-    @PostMapping("/buildings")
-    Building postBuilding(@RequestBody Building building) {
-        /*if (!building.getApartaments().isEmpty() && building.getApartaments() != null) {
-            building.getApartaments().stream()
-                    .map(a -> {
-                        Apartment apartment = new Apartment(a.getName(), a.getType(),a.getSize(),a.isFree());
-                        return apartmentsRepository.save(apartment);
-                    });
-        }*/
-        //Building b = new Building(building.getName(), building.getAddress(), building.getPricePerSquareMeter(), building.getCostPerSquereMeter());
-        return buildingsRepository.save(building);
-    }
-
     @GetMapping("/buildings/{id}")
     Building getBuildingById(@PathVariable Long id) {
         return buildingsRepository.findById(id)
                 .orElseThrow(() -> new BuildingNotFound(id) );
+    }
+
+    @PostMapping("/buildings")
+    Building postBuilding(@RequestBody Building building) {
+        return buildingsRepository.save(building);
     }
 
     @PutMapping("/buildings/{id}")
@@ -54,7 +42,6 @@ public class BuildingsController {
                     if (newBuilding.getAddress() != null) building.setAddress(newBuilding.getAddress());
                     if (newBuilding.getCostPerSquereMeter() != null) building.setCostPerSquereMeter(newBuilding.getCostPerSquereMeter());
                     if (newBuilding.getPricePerSquareMeter() != null) building.setPricePerSquareMeter(newBuilding.getPricePerSquareMeter());
-
                     return buildingsRepository.save(building);
                 })
                 .orElseGet(() -> {
@@ -67,4 +54,5 @@ public class BuildingsController {
     void deleteBuilding(@PathVariable Long id) {
         buildingsRepository.deleteById(id);
     }
+    
 }

@@ -11,7 +11,7 @@ public class Apartment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "apartment_id")
+    @Column(name = "id")
     private Long id;
     @Column(name = "name")
     private String name;
@@ -21,17 +21,16 @@ public class Apartment {
     private Double size;
     @Column(name = "is_free")
     private boolean isFree;
-    @ManyToOne
-    @JoinColumn(name = "building_building_id")
-    private Building building;
+    @Column(name = "building_id")
+    private Long buildingId;
 
     public Apartment() {}
 
-    public Apartment(String name, String type, Double size, boolean isFree, Building building) {
+    public Apartment(String name, String type, Double size, boolean isFree, Long buildingId) {
         this.name = name;
         this.type = type;
         this.size = size;
         this.isFree = isFree;
-        this.building = building;
+        this.buildingId = buildingId;
     }
 }

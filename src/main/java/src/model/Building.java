@@ -1,34 +1,27 @@
 package src.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "building")
 public class Building {
 
     @Id
-    @Column(name = "building_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "address")
     private String address;
+    @Column(name = "price_per_squere_meter")
     private Double pricePerSquareMeter;
+    @Column(name = "cost_per_squere_meter")
     private Double costPerSquereMeter;
-    @OneToMany(mappedBy = "building")
-    private List<Apartment> apartments = new ArrayList<>();
 
-    public Building() {}
-
-    public Building(Long id, String name, String address, Double pricePerSquareMeter, Double costPerSquereMeter, List<Apartment> apartments) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.pricePerSquareMeter = pricePerSquareMeter;
-        this.costPerSquereMeter = costPerSquereMeter;
-        this.apartments = apartments;
-    }
 }
