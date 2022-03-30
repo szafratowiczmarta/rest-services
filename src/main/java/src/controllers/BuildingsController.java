@@ -14,7 +14,7 @@ public class BuildingsController {
     @Autowired
     private final BuildingsRepository buildingsRepository;
 
-    BuildingsController(BuildingsRepository buildingsRepository) {
+    public BuildingsController(BuildingsRepository buildingsRepository) {
         this.buildingsRepository = buildingsRepository;
     }
 
@@ -23,18 +23,23 @@ public class BuildingsController {
         return buildingsRepository.findAll();
     }
 
-    @GetMapping("/buildings/{id}")
+    @GetMapping("/building/{id}")
     Building getBuildingById(@PathVariable Long id) {
         return buildingsRepository.findById(id)
                 .orElseThrow(() -> new BuildingNotFound(id) );
     }
 
-    @PostMapping("/buildings")
+    @GetMapping("/building")
+    List<Building> getBuildingByName(@RequestParam String name) {
+        return buildingsRepository.findByName(name);
+    }
+
+    @PostMapping("/building")
     Building postBuilding(@RequestBody Building building) {
         return buildingsRepository.save(building);
     }
 
-    @PutMapping("/buildings/{id}")
+    @PutMapping("/building/{id}")
     Building replaceBuilding(@RequestBody Building newBuilding, @PathVariable Long id) {
         return buildingsRepository.findById(id)
                 .map(building -> {
@@ -50,7 +55,7 @@ public class BuildingsController {
                 });
     }
 
-    @DeleteMapping("/buildings/{id}")
+    @DeleteMapping("/building/{id}")
     void deleteBuilding(@PathVariable Long id) {
         buildingsRepository.deleteById(id);
     }

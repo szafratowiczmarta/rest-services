@@ -1,9 +1,11 @@
 package src.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "apartments")
@@ -24,13 +26,4 @@ public class Apartment {
     @Column(name = "building_id")
     private Long buildingId;
 
-    public Apartment() {}
-
-    public Apartment(String name, String type, Double size, boolean isFree, Long buildingId) {
-        this.name = name;
-        this.type = type;
-        this.size = size;
-        this.isFree = isFree;
-        this.buildingId = buildingId;
-    }
 }
