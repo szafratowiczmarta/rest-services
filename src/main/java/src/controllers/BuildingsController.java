@@ -1,22 +1,22 @@
 package src.controllers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
-import src.exceptions.BuildingNotFound;
+import src.exceptions.EmptyResultException;
 import src.model.Building;
 import src.model.BuildingsRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 public class BuildingsController {
 
     @Autowired
     private final BuildingsRepository buildingsRepository;
-
-    public BuildingsController(BuildingsRepository buildingsRepository) {
-        this.buildingsRepository = buildingsRepository;
-    }
 
     @GetMapping("/buildings")
     List<Building> getBuildings() {
@@ -24,9 +24,8 @@ public class BuildingsController {
     }
 
     @GetMapping("/building/{id}")
-    Building getBuildingById(@PathVariable Long id) {
-        return buildingsRepository.findById(id)
-                .orElseThrow(() -> new BuildingNotFound(id) );
+    Optional<Building> getBuildingById(@PathVariable Long id) {
+        return buildingsRepository.findById(id);
     }
 
     @GetMapping("/building")
@@ -56,8 +55,13 @@ public class BuildingsController {
     }
 
     @DeleteMapping("/building/{id}")
-    void deleteBuilding(@PathVariable Long id) {
-        buildingsRepository.deleteById(id);
+    String deleteBuilding(@PathVariable Long id) {
+        try {
+            buildingsRepository.deleteById(id);
+            return String.format("Building %s deleted", id);
+        } catch(EmptyResultDataAccessException e) {
+            return new EmptyResultException(id, "Building").getMessage();
+        }
     }
     
 }

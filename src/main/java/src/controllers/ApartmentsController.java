@@ -1,8 +1,10 @@
 package src.controllers;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
-import src.exceptions.ApartmentNotFound;
+import src.exceptions.EmptyResultException;
 import src.model.Apartment;
 import src.model.ApartmentsRepository;
 import src.model.Building;
@@ -16,18 +18,13 @@ import java.util.stream.Collectors;
 import static src.GlobalConstants.MAX_FLAT_SIZE;
 
 @RestController
+@AllArgsConstructor
 public class ApartmentsController {
 
     @Autowired
     private final ApartmentsRepository apartmentsRepository;
     @Autowired
     private final BuildingsRepository buildingsRepository;
-
-    public ApartmentsController(ApartmentsRepository apartmentsRepository,
-                                BuildingsRepository buildingsRepository) {
-        this.apartmentsRepository = apartmentsRepository;
-        this.buildingsRepository = buildingsRepository;
-    }
 
     @GetMapping("/apartments/free")
     List<Apartment> getFreeApartments() {
@@ -45,9 +42,8 @@ public class ApartmentsController {
     }
 
     @GetMapping("/apartment/{id}")
-    Apartment getApartmentById(@PathVariable Long id) {
-        return apartmentsRepository.findById(id)
-                .orElseThrow(() -> new ApartmentNotFound(id) );
+    Optional<Apartment> getApartmentById(@PathVariable Long id) {
+        return apartmentsRepository.findById(id);
     }
 
     @GetMapping("/apartment")
@@ -89,7 +85,12 @@ public class ApartmentsController {
     }
 
     @DeleteMapping("/apartment/{id}")
-    void deleteApartment(@PathVariable Long id) {
-        apartmentsRepository.deleteById(id);
+    String deleteApartment(@PathVariable Long id) {
+        try {
+            apartmentsRepository.deleteById(id);
+            return String.format("Apartment %s deleted", id);
+        } catch(EmptyResultDataAccessException e) {
+            return new EmptyResultException(id, "Apartment").getMessage();
+        }
     }
 }
