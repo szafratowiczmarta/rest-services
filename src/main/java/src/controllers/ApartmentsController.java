@@ -42,7 +42,7 @@ public class ApartmentsController {
     }
 
     @GetMapping("/apartment/{id}")
-    Optional<Apartment> getApartmentById(@PathVariable Long id) {
+    Optional<Apartment> getApartmentById(@PathVariable Integer id) {
         return apartmentsRepository.findById(id);
     }
 
@@ -52,7 +52,7 @@ public class ApartmentsController {
     }
 
     @GetMapping("/building/{id}/apartments")
-    List<Apartment> getBuildingApartmentsByBuildingId(@PathVariable Long id) {
+    List<Apartment> getBuildingApartmentsByBuildingId(@PathVariable Integer id) {
         return apartmentsRepository.findAll().stream()
                 .filter(apartment -> apartment.getBuildingId().equals(id)).collect(Collectors.toList());
     }
@@ -69,7 +69,7 @@ public class ApartmentsController {
     }
 
     @PutMapping("/apartment/{id}")
-    Apartment replaceApartments(@RequestBody Apartment newApartment, @PathVariable Long id) {
+    Apartment replaceApartments(@RequestBody Apartment newApartment, @PathVariable Integer id) {
         return apartmentsRepository.findById(id)
                 .map(apartment -> {
                     if (newApartment.getName() != null) apartment.setName(newApartment.getName());
@@ -85,7 +85,7 @@ public class ApartmentsController {
     }
 
     @DeleteMapping("/apartment/{id}")
-    String deleteApartment(@PathVariable Long id) {
+    String deleteApartment(@PathVariable Integer id) {
         try {
             apartmentsRepository.deleteById(id);
             return String.format("Apartment %s deleted", id);

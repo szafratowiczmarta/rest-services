@@ -16,7 +16,7 @@ public class Investment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "type")
@@ -29,6 +29,8 @@ public class Investment {
     private Double cost;
     @Column(name = "number_of_apartments")
     private int numberOfApartments;
+    @Column(name = "priority")
+    private String priority;
 
 }
 

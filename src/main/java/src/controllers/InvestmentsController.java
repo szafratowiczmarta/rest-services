@@ -32,6 +32,6 @@ public class InvestmentsController {
     }
 
     @DeleteMapping("/investment/{id}")
-    void deleteInvestment(@PathVariable Long id) { investmentRepository.deleteById(id); }
+    void deleteInvestment(@PathVariable Integer id) { investmentRepository.deleteById(id); }
 
 }
