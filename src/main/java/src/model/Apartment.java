@@ -14,7 +14,7 @@ public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
     @Column(name = "name")
     private String name;
     @Column(name = "type")
@@ -24,6 +24,6 @@ public class Apartment {
     @Column(name = "is_free")
     private boolean isFree;
     @Column(name = "building_id")
-    private Long buildingId;
+    private Integer buildingId;
 
 }

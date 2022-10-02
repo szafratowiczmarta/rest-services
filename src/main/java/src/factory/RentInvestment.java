@@ -25,4 +25,5 @@ public class RentInvestment extends Investment implements IInvestment {
         System.out.println(String.format("End Date of investment with %s apartments is %s", investment.getNumberOfApartments(), endDate.toString()));
         return endDate;
     }
+    
 }

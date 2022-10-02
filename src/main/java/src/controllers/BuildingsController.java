@@ -24,7 +24,7 @@ public class BuildingsController {
     }
 
     @GetMapping("/building/{id}")
-    Optional<Building> getBuildingById(@PathVariable Long id) {
+    Optional<Building> getBuildingById(@PathVariable Integer id) {
         return buildingsRepository.findById(id);
     }
 
@@ -39,7 +39,7 @@ public class BuildingsController {
     }
 
     @PutMapping("/building/{id}")
-    Building replaceBuilding(@RequestBody Building newBuilding, @PathVariable Long id) {
+    Building replaceBuilding(@RequestBody Building newBuilding, @PathVariable Integer id) {
         return buildingsRepository.findById(id)
                 .map(building -> {
                     if (newBuilding.getName() != null) building.setName(newBuilding.getName());
@@ -55,7 +55,7 @@ public class BuildingsController {
     }
 
     @DeleteMapping("/building/{id}")
-    String deleteBuilding(@PathVariable Long id) {
+    String deleteBuilding(@PathVariable Integer id) {
         try {
             buildingsRepository.deleteById(id);
             return String.format("Building %s deleted", id);
