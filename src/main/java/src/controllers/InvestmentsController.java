@@ -27,7 +27,7 @@ public class InvestmentsController {
         InvestmentFactory investmentFactory = new InvestmentFactory();
         IInvestment inv = investmentFactory.createInvestment(investment);
         investment.setEndDate(inv.calculateEndDate(investment));
-        investment.setCost(inv.cost(investment));
+        investment.setCost(inv.calculateCost(investment));
         return investmentRepository.save(investment);
     }
 

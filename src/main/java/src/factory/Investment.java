@@ -29,8 +29,6 @@ public class Investment {
     private Double cost;
     @Column(name = "number_of_apartments")
     private int numberOfApartments;
-    @Column(name = "priority")
-    private String priority;
 
 }
 

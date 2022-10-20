@@ -10,7 +10,7 @@ import static src.GlobalConstants.MAX_COST_FOR_SINGLE_RENT_APARTMENT;
 public class RentInvestment extends Investment implements IInvestment {
 
     @Override
-    public double cost(Investment investment) {
+    public double calculateCost(Investment investment) {
         Double cost = investment.getNumberOfApartments() * MAX_COST_FOR_SINGLE_RENT_APARTMENT;
         System.out.println(String.format("Cost for rent investment with %s apartments is %s", investment.getNumberOfApartments(), cost));
         return cost;
